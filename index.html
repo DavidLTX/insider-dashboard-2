@@ -5,270 +5,241 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Insider Trades Tracker</title>
 <style>
-  :root{
-    --bg:#0f1117;--surface:#1a1d27;--border:#2a2d3a;
-    --text:#e2e8f0;--muted:#8892a4;
-    --green:#22c55e;--red:#ef4444;--blue:#60a5fa;--yellow:#facc15;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px}
-  a{color:var(--blue);text-decoration:none}
-  /* ── layout ── */
-  header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-  header h1{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
-  header h1 span{font-size:22px}
-  #updated{font-size:12px;color:var(--muted)}
-  main{padding:24px;max-width:1400px;margin:0 auto}
-  /* ── stat cards ── */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
-  .card .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
-  .card .value{font-size:24px;font-weight:700}
-  .card .value.green{color:var(--green)}.card .value.red{color:var(--red)}.card .value.blue{color:var(--blue)}
-  /* ── filters ── */
-  .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;align-items:center}
-  .filters select,.filters input{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;outline:none}
-  .filters select:focus,.filters input:focus{border-color:var(--blue)}
-  .btn{background:var(--blue);color:#0f1117;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
-  .btn:hover{opacity:.85}
-  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
-  /* ── table ── */
-  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
-  table{width:100%;border-collapse:collapse}
-  thead tr{background:#12151f}
-  th{padding:11px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
-  th:hover{color:var(--text)}
-  th.sort-asc::after{content:" ▲";color:var(--blue)}
-  th.sort-desc::after{content:" ▼";color:var(--blue)}
-  tbody tr{border-top:1px solid var(--border);transition:background .12s}
-  tbody tr:hover{background:#1e2130}
-  td{padding:11px 14px;vertical-align:middle;white-space:nowrap}
-  .ticker-badge{display:inline-block;background:#252a3a;color:var(--blue);border-radius:6px;padding:3px 8px;font-weight:700;font-size:12px}
-  .tag{display:inline-block;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:.04em}
-  .tag.BUY{background:#14532d;color:var(--green)}.tag.SELL{background:#450a0a;color:var(--red)}
-  .cat-badge{display:inline-block;border-radius:4px;padding:2px 7px;font-size:10px;background:#252a3a;color:var(--muted);margin-left:4px}
-  .cat-badge.open_market{color:var(--blue)}
-  .cat-badge.award{color:var(--yellow)}
-  .cat-badge.derivative{color:#c084fc}
-  .cat-badge.tax{color:#f97316}
-  .num{text-align:right;font-variant-numeric:tabular-nums}
-  .muted{color:var(--muted)}
-  /* ── empty ── */
-  #empty{text-align:center;padding:60px 20px;color:var(--muted);display:none}
-  /* ── ticker sidebar pills ── */
-  .ticker-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-  .tick-pill{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:12px;cursor:pointer;transition:.12s}
-  .tick-pill:hover{border-color:var(--blue);color:var(--blue)}
-  .tick-pill.active{background:var(--blue);color:#0f1117;border-color:var(--blue);font-weight:700}
-  .tick-pill.has-buy{border-color:#22c55e44}
-  .tick-pill.has-sell{border-color:#ef444444}
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--border:#2a2d3a;
+  --text:#e2e8f0;--muted:#8892a4;
+  --green:#22c55e;--red:#ef4444;--blue:#60a5fa;--yellow:#facc15;--purple:#c084fc;--orange:#f97316;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header h1{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+#updated{font-size:12px;color:var(--muted)}
+main{padding:24px;max-width:1500px;margin:0 auto}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+.card .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.card .value{font-size:24px;font-weight:700}
+.card .value.green{color:var(--green)}.card .value.red{color:var(--red)}.card .value.blue{color:var(--blue)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;align-items:center}
+.filters select,.filters input{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;outline:none}
+.filters select:focus,.filters input:focus{border-color:var(--blue)}
+.btn{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer}
+.btn:hover{color:var(--text);border-color:var(--text)}
+.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+thead tr{background:#12151f}
+th{padding:11px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
+th:hover{color:var(--text)}
+th.asc::after{content:" ▲";color:var(--blue)}th.desc::after{content:" ▼";color:var(--blue)}
+tbody tr{border-top:1px solid var(--border);transition:background .12s}
+tbody tr:hover{background:#1e2130}
+td{padding:11px 14px;vertical-align:middle;white-space:nowrap}
+.ticker-badge{display:inline-block;background:#252a3a;color:var(--blue);border-radius:6px;padding:3px 8px;font-weight:700;font-size:12px}
+.tag{display:inline-block;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:.04em}
+.tag.BUY{background:#14532d;color:var(--green)}.tag.SELL{background:#450a0a;color:var(--red)}
+.cat{display:inline-block;border-radius:4px;padding:2px 6px;font-size:10px;margin-left:5px;background:#1e2130}
+.cat.open_market{color:var(--blue)}.cat.derivative{color:var(--purple)}.cat.award{color:var(--yellow)}.cat.tax{color:var(--orange)}.cat.other{color:var(--muted)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.dim{color:var(--muted)}
+#empty{text-align:center;padding:60px 20px;color:var(--muted);display:none}
+.ticker-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.pill{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:12px;cursor:pointer;transition:.12s;user-select:none}
+.pill:hover,.pill.active{background:var(--blue);color:#0f1117;border-color:var(--blue);font-weight:700}
+.pill.has-buy{box-shadow:0 0 0 1px #22c55e44}
+.pill.has-sell{box-shadow:0 0 0 1px #ef444444}
+.pill.has-buy.has-sell{box-shadow:0 0 0 1px #facc1544}
 </style>
 </head>
 <body>
 
 <header>
-  <h1><span>📊</span> Portfolio Insider Trades Tracker</h1>
+  <h1>📊 Portfolio Insider Trades Tracker</h1>
   <span id="updated">Loading…</span>
 </header>
 
 <main>
-  <!-- stat cards -->
   <div class="stats">
-    <div class="card"><div class="label">Total Trades</div><div class="value blue" id="stat-total">–</div></div>
-    <div class="card"><div class="label">Buys</div><div class="value green" id="stat-buys">–</div></div>
-    <div class="card"><div class="label">Sells</div><div class="value red" id="stat-sells">–</div></div>
-    <div class="card"><div class="label">Tickers w/ Activity</div><div class="value blue" id="stat-tickers">–</div></div>
-    <div class="card"><div class="label">Largest Buy ($)</div><div class="value green" id="stat-biggest-buy">–</div></div>
-    <div class="card"><div class="label">Largest Sell ($)</div><div class="value red" id="stat-biggest-sell">–</div></div>
+    <div class="card"><div class="label">Total Trades</div><div class="value blue"  id="s-total">–</div></div>
+    <div class="card"><div class="label">Buys</div>         <div class="value green" id="s-buys">–</div></div>
+    <div class="card"><div class="label">Sells</div>        <div class="value red"   id="s-sells">–</div></div>
+    <div class="card"><div class="label">Tickers Active</div><div class="value blue" id="s-tickers">–</div></div>
+    <div class="card"><div class="label">Largest Buy</div>  <div class="value green" id="s-bigbuy">–</div></div>
+    <div class="card"><div class="label">Largest Sell</div> <div class="value red"   id="s-bigsell">–</div></div>
   </div>
 
-  <!-- ticker pills -->
   <div class="ticker-bar" id="ticker-bar"></div>
 
-  <!-- filters -->
   <div class="filters">
-    <input id="search" placeholder="🔍  Search insider name…" style="width:200px"/>
-    <select id="filter-type">
+    <input  id="f-search"  placeholder="🔍 Search insider…" style="width:190px"/>
+    <select id="f-dir">
       <option value="">All Directions</option>
       <option value="BUY">Buys only</option>
       <option value="SELL">Sells only</option>
     </select>
-    <select id="filter-cat">
+    <select id="f-cat">
       <option value="">All Categories</option>
-      <option value="open_market">Open Market only</option>
+      <option value="open_market">Open Market</option>
       <option value="derivative">Options / Exercises</option>
       <option value="award">Awards / Grants</option>
       <option value="tax">Tax Withholding</option>
       <option value="other">Other</option>
     </select>
-    <select id="filter-days">
+    <select id="f-days">
       <option value="30">Last 30 days</option>
       <option value="60">Last 60 days</option>
       <option value="90" selected>Last 90 days</option>
       <option value="9999">All time</option>
     </select>
-    <button class="btn btn-ghost" onclick="resetFilters()">Reset</button>
-    <span id="count-label" style="color:var(--muted);margin-left:auto"></span>
+    <button class="btn" onclick="resetFilters()">Reset</button>
+    <span id="count" style="color:var(--muted);margin-left:auto;font-size:13px"></span>
   </div>
 
-  <!-- table -->
   <div class="table-wrap">
-    <table id="trades-table">
-      <thead>
-        <tr>
-          <th data-col="ticker">Ticker</th>
-          <th data-col="txn_date">Date</th>
-          <th data-col="type">Direction</th><th data-col="txn_label">Transaction</th>
-          <th data-col="insider">Insider</th>
-          <th data-col="role">Role</th>
-          <th data-col="shares" class="num">Shares</th>
-          <th data-col="price" class="num">Price</th>
-          <th data-col="total_value" class="num">Total Value</th>
-          <th data-col="shares_after" class="num">Shares After</th>
-        </tr>
-      </thead>
+    <table>
+      <thead><tr>
+        <th data-col="ticker">Ticker</th>
+        <th data-col="txn_date">Date</th>
+        <th data-col="type">Direction</th>
+        <th data-col="txn_label">Transaction</th>
+        <th data-col="insider">Insider</th>
+        <th data-col="role">Role</th>
+        <th data-col="shares" class="num">Shares</th>
+        <th data-col="price"  class="num">Price</th>
+        <th data-col="total_value" class="num">Total Value</th>
+        <th data-col="shares_after" class="num">Shares After</th>
+      </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
-    <div id="empty">No trades match your filters.</div>
+    <div id="empty">No trades match the current filters.</div>
   </div>
 </main>
 
 <script>
-const PORTFOLIO = ["PLTR","NVDA","AAPL","MSFT","META","AMZN","GOOG","AVGO",
+const PORTFOLIO = [
+  "PLTR","NVDA","AAPL","MSFT","META","AMZN","GOOG","AVGO",
   "NOW","UNH","V","MA","MELI","PANW","FTNT","MNST",
-  "LLY","ASML","AXON","MPWR","APH"];
+  "LLY","ASML","AXON","MPWR","APH"
+];
 
-let ALL_TRADES = [];
-let sortCol = "txn_date", sortDir = -1;
-let activeTicker = null;
+let ALL = [], sortCol = "txn_date", sortDir = -1, activeTicker = null;
 
-const fmt = {
-  num:  n => n ? Number(n).toLocaleString(undefined,{maximumFractionDigits:0}) : "–",
-  price:p => p ? "$"+Number(p).toLocaleFixed(2) : "–",
-  money:v => v ? "$"+Number(v).toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0}) : "–",
-};
-Number.prototype.toLocaleFixed = function(d){ return this.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}); };
+function money(v){ return v ? "$"+Number(v).toLocaleString(undefined,{maximumFractionDigits:0}) : "–" }
+function price(v){ return v ? "$"+Number(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : "–" }
+function num(v)  { return v ? Number(v).toLocaleString(undefined,{maximumFractionDigits:0}) : "–" }
 
 async function load(){
-  try {
-    const r = await fetch("trades.json?_="+Date.now());
+  try{
+    const r    = await fetch("trades.json?_="+Date.now());
     const data = await r.json();
-    ALL_TRADES = data.trades || [];
-    document.getElementById("updated").textContent = "Last updated: " + (data.updated_at || "unknown");
-    buildTickerPills();
-    render();
-  } catch(e) {
+    ALL = data.trades || [];
+    document.getElementById("updated").textContent = "Last updated: "+(data.updated_at||"unknown");
+    buildPills(); render();
+  } catch(e){
     document.getElementById("updated").textContent = "⚠ Could not load trades.json — run fetch_trades.py first";
   }
 }
 
-function buildTickerPills(){
-  const bar = document.getElementById("ticker-bar");
+function buildPills(){
+  const bar   = document.getElementById("ticker-bar");
   bar.innerHTML = "";
-  const hasBuy  = new Set(ALL_TRADES.filter(t=>t.type==="BUY").map(t=>t.ticker));
-  const hasSell = new Set(ALL_TRADES.filter(t=>t.type==="SELL").map(t=>t.ticker));
-  PORTFOLIO.forEach(tk => {
+  const buySet  = new Set(ALL.filter(t=>t.type==="BUY").map(t=>t.ticker));
+  const sellSet = new Set(ALL.filter(t=>t.type==="SELL").map(t=>t.ticker));
+  PORTFOLIO.forEach(tk=>{
     const p = document.createElement("span");
-    p.className = "tick-pill";
-    if(hasBuy.has(tk))  p.classList.add("has-buy");
-    if(hasSell.has(tk)) p.classList.add("has-sell");
+    p.className = "pill";
+    if(buySet.has(tk))  p.classList.add("has-buy");
+    if(sellSet.has(tk)) p.classList.add("has-sell");
     p.textContent = tk;
-    p.onclick = () => { activeTicker = activeTicker===tk ? null : tk; buildTickerPills(); render(); };
+    p.onclick = ()=>{ activeTicker = activeTicker===tk ? null : tk; buildPills(); render(); };
     if(activeTicker===tk) p.classList.add("active");
     bar.appendChild(p);
   });
 }
 
-function getFiltered(){
-  const search = document.getElementById("search").value.toLowerCase();
-  const type   = document.getElementById("filter-type").value;
-  const cat    = document.getElementById("filter-cat").value;
-  const days   = parseInt(document.getElementById("filter-days").value);
+function filtered(){
+  const search = document.getElementById("f-search").value.toLowerCase();
+  const dir    = document.getElementById("f-dir").value;
+  const cat    = document.getElementById("f-cat").value;
+  const days   = parseInt(document.getElementById("f-days").value);
   const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-days);
   const cutStr = cutoff.toISOString().slice(0,10);
-  return ALL_TRADES.filter(t => {
+  return ALL.filter(t=>{
     if(activeTicker && t.ticker !== activeTicker) return false;
-    if(type && t.type !== type) return false;
+    if(dir  && t.type         !== dir)  return false;
     if(cat  && t.txn_category !== cat)  return false;
-    if(t.txn_date < cutStr) return false;
-    if(search && !t.insider.toLowerCase().includes(search)) return false;
+    if(t.txn_date < cutStr)             return false;
+    if(search && !(t.insider||"").toLowerCase().includes(search)) return false;
     return true;
   });
 }
 
 function render(){
-  let rows = getFiltered();
-  // sort
+  let rows = filtered();
   rows.sort((a,b)=>{
-    let av=a[sortCol]||"", bv=b[sortCol]||"";
-    if(!isNaN(av)&&!isNaN(bv)){av=+av;bv=+bv;}
+    let av=a[sortCol]??"", bv=b[sortCol]??"";
+    if(av!==""&&bv!==""&&!isNaN(av)&&!isNaN(bv)){av=+av;bv=+bv;}
     return av<bv?-sortDir:av>bv?sortDir:0;
   });
 
-  // stats
-  const buys  = ALL_TRADES.filter(t=>t.type==="BUY");
-  const sells = ALL_TRADES.filter(t=>t.type==="SELL");
-  document.getElementById("stat-total").textContent = ALL_TRADES.length;
-  document.getElementById("stat-buys").textContent  = buys.length;
-  document.getElementById("stat-sells").textContent = sells.length;
-  document.getElementById("stat-tickers").textContent = new Set(ALL_TRADES.map(t=>t.ticker)).size;
-  const maxBuy  = buys.reduce((m,t)=>Math.max(m,t.total_value||0),0);
-  const maxSell = sells.reduce((m,t)=>Math.max(m,t.total_value||0),0);
-  document.getElementById("stat-biggest-buy").textContent  = maxBuy  ? "$"+maxBuy.toLocaleString(undefined,{maximumFractionDigits:0}) : "–";
-  document.getElementById("stat-biggest-sell").textContent = maxSell ? "$"+maxSell.toLocaleString(undefined,{maximumFractionDigits:0}) : "–";
+  // stat cards (always over full ALL, not filtered)
+  const buys  = ALL.filter(t=>t.type==="BUY");
+  const sells = ALL.filter(t=>t.type==="SELL");
+  document.getElementById("s-total").textContent   = ALL.length;
+  document.getElementById("s-buys").textContent    = buys.length;
+  document.getElementById("s-sells").textContent   = sells.length;
+  document.getElementById("s-tickers").textContent = new Set(ALL.map(t=>t.ticker)).size;
+  document.getElementById("s-bigbuy").textContent  = money(Math.max(0,...buys.map(t=>t.total_value||0)));
+  document.getElementById("s-bigsell").textContent = money(Math.max(0,...sells.map(t=>t.total_value||0)));
 
-  document.getElementById("count-label").textContent = rows.length + " trades shown";
+  document.getElementById("count").textContent = rows.length+" trades shown";
 
   const tbody = document.getElementById("tbody");
-  if(!rows.length){
-    tbody.innerHTML="";
-    document.getElementById("empty").style.display="block";
-    return;
-  }
-  document.getElementById("empty").style.display="none";
+  const empty = document.getElementById("empty");
+  if(!rows.length){ tbody.innerHTML=""; empty.style.display="block"; return; }
+  empty.style.display="none";
 
   tbody.innerHTML = rows.map(t=>`
     <tr>
       <td><span class="ticker-badge">${t.ticker}</span></td>
-      <td>${t.txn_date}</td>
+      <td>${t.txn_date||"–"}</td>
       <td><span class="tag ${t.type}">${t.type}</span></td>
-      <td>${t.txn_label||t.txn_code||"–"}<span class="cat-badge ${t.txn_category||''}">${t.txn_category||''}</span></td>
-      <td>${t.insider}</td>
-      <td class="muted">${t.role||"–"}</td>
-      <td class="num">${fmt.num(t.shares)}</td>
-      <td class="num">${t.price ? "$"+Number(t.price).toLocaleFixed(2) : "–"}</td>
-      <td class="num" style="font-weight:600;color:${t.type==="BUY"?"var(--green)":"var(--red)"}">${fmt.money(t.total_value)}</td>
-      <td class="num muted">${fmt.num(t.shares_after)}</td>
+      <td>${t.txn_label||t.txn_code||"–"}<span class="cat ${t.txn_category||''}">${t.txn_category||''}</span></td>
+      <td>${t.insider||"–"}</td>
+      <td class="dim">${t.role||"–"}</td>
+      <td class="num">${num(t.shares)}</td>
+      <td class="num">${price(t.price)}</td>
+      <td class="num" style="font-weight:600;color:${t.type==="BUY"?"var(--green)":"var(--red)"}">${money(t.total_value)}</td>
+      <td class="num dim">${num(t.shares_after)}</td>
     </tr>`).join("");
 
-  // sort indicators
-  document.querySelectorAll("th").forEach(th=>{
-    th.classList.remove("sort-asc","sort-desc");
-    if(th.dataset.col===sortCol) th.classList.add(sortDir===1?"sort-asc":"sort-desc");
+  document.querySelectorAll("th[data-col]").forEach(th=>{
+    th.classList.remove("asc","desc");
+    if(th.dataset.col===sortCol) th.classList.add(sortDir===1?"asc":"desc");
   });
 }
 
 function resetFilters(){
-  document.getElementById("search").value="";
-  document.getElementById("filter-type").value="";
-  document.getElementById("filter-days").value="90";
-  activeTicker=null;
-  buildTickerPills();
-  render();
+  document.getElementById("f-search").value = "";
+  document.getElementById("f-dir").value    = "";
+  document.getElementById("f-cat").value    = "";
+  document.getElementById("f-days").value   = "90";
+  activeTicker = null;
+  buildPills(); render();
 }
 
-// sort on header click
 document.querySelectorAll("th[data-col]").forEach(th=>{
   th.addEventListener("click",()=>{
-    if(sortCol===th.dataset.col) sortDir*=-1; else { sortCol=th.dataset.col; sortDir=-1; }
+    if(sortCol===th.dataset.col) sortDir*=-1;
+    else { sortCol=th.dataset.col; sortDir=-1; }
     render();
   });
 });
 
-// live filter
-["search","filter-type","filter-cat","filter-days"].forEach(id=>{
-  document.getElementById(id).addEventListener("input", render);
-  document.getElementById(id).addEventListener("change", render);
+["f-search","f-dir","f-cat","f-days"].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener("input",  render);
+  el.addEventListener("change", render);
 });
 
 load();
