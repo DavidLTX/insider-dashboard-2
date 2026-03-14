@@ -3,152 +3,185 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Insider Trades Tracker</title>
+<title>INSIDER INTEL</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNSIgZmlsbD0iIzA4MDgwZiIvPgogIDxyZWN0IHg9IjMiIHk9IjE3IiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCIgcng9IjEiIGZpbGw9IiMyMmM1NWUiLz4KICA8cmVjdCB4PSIxMCIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjE2IiByeD0iMSIgZmlsbD0iIzIyYzU1ZSIvPgogIDxyZWN0IHg9IjE3IiB5PSI2IiB3aWR0aD0iNSIgaGVpZ2h0PSIyMCIgcng9IjEiIGZpbGw9IiNmZjNiM2IiLz4KICA8cmVjdCB4PSIyNCIgeT0iMTQiIHdpZHRoPSI1IiBoZWlnaHQ9IjEyIiByeD0iMSIgZmlsbD0iI2ZmM2IzYiIvPgogIDxsaW5lIHgxPSIxIiB5MT0iMjgiIHgyPSIzMSIgeTI9IjI4IiBzdHJva2U9IiMyYTJhNDAiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjwvc3ZnPg=="/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
 <style>
 :root{
-  --bg:#0f1117;--surface:#161922;--surface2:#1e2130;--border:#252a3a;
-  --text:#e2e8f0;--muted:#6b7280;--muted2:#9ca3af;
-  --green:#22c55e;--green-bg:#052e16;
-  --red:#ef4444;--red-bg:#450a0a;
-  --blue:#60a5fa;--yellow:#facc15;--purple:#c084fc;--orange:#f97316;
+  --bg:#08080f;--card:#10101a;--card2:#14141f;--border:#1e1e30;--border2:#2a2a40;
+  --red:#ff3b3b;--amber:#f59e0b;--green:#22c55e;--blue:#60a5fa;--purple:#a78bfa;
+  --text:#ddddf0;--dim:#9999cc;--dimmer:#6666aa;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100}
-header h1{font-size:16px;font-weight:700}
-#updated{font-size:12px;color:var(--muted)}
-main{padding:24px;max-width:1600px;margin:0 auto}
-section{margin-bottom:40px}
-h2{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Barlow',sans-serif;font-size:14px;min-height:100vh;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%,#1a0a3a44 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 40px,#ffffff03 40px,#ffffff03 41px),
+    repeating-linear-gradient(90deg,transparent,transparent 40px,#ffffff03 40px,#ffffff03 41px);
+}
+.header{padding:32px 40px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100;background:var(--bg)}
+.header h1{font-family:'Barlow',sans-serif;font-size:26px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+.header h1 span{color:var(--purple)}
+.header-sub{color:var(--dim);font-size:12px;margin-top:4px;letter-spacing:.03em;font-family:'IBM Plex Mono',monospace}
+.updated-label{font-size:10px;color:#8888bb;letter-spacing:.08em;text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
+.updated-time{font-size:12px;color:var(--dim);margin-top:3px;font-family:'IBM Plex Mono',monospace}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 #22c55e66}50%{opacity:.7;box-shadow:0 0 0 5px #22c55e00}}
+main{padding:32px 40px;display:flex;flex-direction:column;gap:36px;max-width:1600px;margin:0 auto}
+.section-title{font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 
-/* ── stat cards ── */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:28px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
-.card .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
-.card .val{font-size:22px;font-weight:700}
-.val.g{color:var(--green)}.val.r{color:var(--red)}.val.b{color:var(--blue)}
+/* stat tiles */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stile{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+.stile::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stile.g::before{background:linear-gradient(90deg,var(--green),#4ade80)}
+.stile.r::before{background:linear-gradient(90deg,var(--red),#ff6b6b)}
+.stile.b::before{background:linear-gradient(90deg,var(--blue),#93c5fd)}
+.stile .lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-family:'IBM Plex Mono',monospace}
+.stile .val{font-size:22px;font-weight:700;color:#fff;font-family:'IBM Plex Mono',monospace}
 
-/* ── portfolio grid ── */
-.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.ptile{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
-.ptile:hover{border-color:#3d4460}
-.ptile.active{border-color:var(--blue)}
-.ptile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.ptile-ticker{font-size:17px;font-weight:800;color:var(--blue)}
-.ptile-sig{border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700}
-.ptile-company{font-size:11px;color:var(--muted);margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ptile-stats{display:flex;gap:10px;margin-bottom:10px;font-size:11px}
+/* portfolio grid */
+.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.ptile{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color .15s,transform .12s}
+.ptile:hover{border-color:var(--border2);transform:translateY(-1px)}
+.ptile.active{border-color:var(--purple)}
+.ptile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.ptile-ticker{font-size:16px;font-weight:800;color:#fff;letter-spacing:.04em;font-family:'Barlow',sans-serif}
+.ptile-sig{border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;letter-spacing:.06em}
+.ptile-company{font-size:11px;color:var(--dimmer);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'IBM Plex Mono',monospace}
+.ptile-stats{display:flex;gap:12px;margin-bottom:8px;font-size:11px;font-family:'IBM Plex Mono',monospace}
 .ptile-stats .buy{color:var(--green);font-weight:600}
 .ptile-stats .sell{color:var(--red);font-weight:600}
-.ptile-stats .trades{color:var(--muted)}
-.ptile-chart{width:100%;height:60px;position:relative}
-.ptile-chart svg{width:100%;height:100%}
-.no-activity{font-size:11px;color:var(--muted);text-align:center;line-height:60px}
+.ptile-stats .trades{color:var(--dimmer)}
+.ptile-chart{width:100%;height:52px}
+.ptile-chart svg{width:100%;height:52px}
+.no-act{font-size:10px;color:var(--dimmer);text-align:center;line-height:52px;font-family:'IBM Plex Mono',monospace}
 
-/* ── signal cards ── */
-.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.sc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px}
-.sc:hover{border-color:#3d4460}
+/* expanded chart */
+#chart-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 24px;display:none;margin-top:10px}
+#chart-panel-title{font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;margin-bottom:14px}
+
+/* signal cards */
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:11px;transition:border-color .15s,transform .12s}
+.sc:hover{border-color:var(--border2);transform:translateY(-1px)}
 .sc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.sc-ticker{font-size:18px;font-weight:800;color:var(--blue)}
-.sc-company{font-size:12px;color:var(--muted2);margin-top:1px}
-.sig-badge{border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;white-space:nowrap}
-.sB2{background:#052e16;color:#4ade80}
-.sB1{background:#052e16;color:var(--green)}
-.sB0{background:#052e16;color:#86efac}
-.sN{background:var(--surface2);color:var(--muted2)}
-.sBr0{background:#2d0a0a;color:#fca5a5}
-.sBr1{background:var(--red-bg);color:var(--red)}
-.sBr2{background:#3b0000;color:#fca5a5}
-.sc-insider{font-size:13px;font-weight:600}
-.sc-role{font-size:11px;color:var(--muted2);margin-top:1px}
-.sc-metrics{display:flex;flex-wrap:wrap;gap:10px}
-.sc-metric{background:var(--surface2);border-radius:6px;padding:7px 10px;flex:1;min-width:80px}
-.sc-metric .mk{font-size:10px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
-.sc-metric .mv{font-size:13px;font-weight:700}
-.sc-flags{display:flex;flex-wrap:wrap;gap:6px}
-.flag{font-size:11px;background:var(--surface2);border-radius:4px;padding:2px 7px;color:var(--muted2)}
-.flag.w{color:var(--yellow)}.flag.d{color:var(--red)}.flag.g{color:var(--green)}
-.sc-commentary{font-size:12px;color:var(--muted2);line-height:1.6;border-top:1px solid var(--border);padding-top:10px}
+.sc-ticker{font-size:18px;font-weight:800;color:#fff;letter-spacing:.04em}
+.sc-company{font-size:11px;color:var(--dimmer);margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.sig-badge{border-radius:4px;padding:3px 9px;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:.05em}
+.sB2{background:#052e16;color:#4ade80}.sB1{background:#052e16;color:var(--green)}.sB0{background:#052e16;color:#86efac}
+.sN{background:var(--card2);color:var(--dim)}
+.sBr0{background:#2d0a0a;color:#fca5a5}.sBr1{background:#450a0a;color:var(--red)}.sBr2{background:#3b0000;color:#fca5a5}
+.sc-insider{font-size:13px;font-weight:700;color:#fff}
+.sc-role{font-size:11px;color:var(--dimmer);margin-top:1px;font-family:'IBM Plex Mono',monospace}
+.sc-metrics{display:flex;flex-wrap:wrap;gap:8px}
+.sc-metric{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;flex:1;min-width:80px}
+.sc-metric .mk{font-size:9px;color:var(--dimmer);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;font-family:'IBM Plex Mono',monospace}
+.sc-metric .mv{font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.sc-flags{display:flex;flex-wrap:wrap;gap:5px}
+.flag{font-size:10px;background:var(--card2);border:1px solid var(--border);border-radius:3px;padding:2px 7px;font-family:'IBM Plex Mono',monospace}
+.flag.w{color:var(--amber)}.flag.d{color:var(--red)}.flag.g{color:var(--green)}
+.sc-commentary{font-size:12px;color:var(--dim);line-height:1.6;border-top:1px solid var(--border);padding-top:10px;font-weight:500}
 .sc-commentary strong{color:var(--text)}
-.no-sig{color:var(--muted);font-size:13px;padding:10px 0}
-
-/* ── chart expand panel ── */
-#chart-panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-top:12px;display:none}
-#chart-panel h3{font-size:14px;font-weight:700;margin-bottom:14px;color:var(--text)}
+.no-sig{color:var(--dimmer);font-size:12px;padding:10px 0;font-family:'IBM Plex Mono',monospace}
+@media(max-width:600px){.header,.main{padding-left:16px;padding-right:16px}.portfolio-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
 </head>
 <body>
-<header>
-  <h1>📊 Portfolio Insider Trades Tracker</h1>
-  <span id="updated">Loading…</span>
-</header>
-<main>
-  <!-- stat tiles -->
-  <div class="stats">
-    <div class="card"><div class="lbl">Total Trades</div><div class="val b" id="s-total">–</div></div>
-    <div class="card"><div class="lbl">Buys</div><div class="val g" id="s-buys">–</div></div>
-    <div class="card"><div class="lbl">Sells</div><div class="val r" id="s-sells">–</div></div>
-    <div class="card"><div class="lbl">Tickers Active</div><div class="val b" id="s-tickers">–</div></div>
-    <div class="card"><div class="lbl">Largest Buy</div><div class="val g" id="s-bigbuy">–</div></div>
-    <div class="card"><div class="lbl">Largest Sell</div><div class="val r" id="s-bigsell">–</div></div>
+<header class="header">
+  <div>
+    <h1>INSIDER <span>INTEL</span></h1>
+    <div class="header-sub">Portfolio Insider Trades Tracker — SEC Form 4</div>
   </div>
+  <div style="text-align:right">
+    <div class="updated-label"><span class="live-dot"></span>Auto-refreshes daily</div>
+    <div class="updated-time" id="updated">Loading…</div>
+  </div>
+</header>
+
+<main>
+  <!-- stats -->
+  <section>
+    <div class="section-title">Summary</div>
+    <div class="stats">
+      <div class="stile b"><div class="lbl">Total Trades</div><div class="val" id="s-total">–</div></div>
+      <div class="stile g"><div class="lbl">Buys</div><div class="val" id="s-buys">–</div></div>
+      <div class="stile r"><div class="lbl">Sells</div><div class="val" id="s-sells">–</div></div>
+      <div class="stile b"><div class="lbl">Active Tickers</div><div class="val" id="s-tickers">–</div></div>
+      <div class="stile g"><div class="lbl">Largest Buy</div><div class="val" id="s-bigbuy">–</div></div>
+      <div class="stile r"><div class="lbl">Largest Sell</div><div class="val" id="s-bigsell">–</div></div>
+    </div>
+  </section>
 
   <!-- portfolio -->
   <section>
-    <h2>💼 Portfolio</h2>
+    <div class="section-title">💼 Portfolio — 90-Day Insider Flow</div>
     <div class="portfolio-grid" id="portfolio-grid"></div>
-    <div id="chart-panel">
-      <h3 id="chart-panel-title"></h3>
-      <div id="expanded-chart"></div>
-    </div>
+    <div id="chart-panel"><div id="chart-panel-title"></div><div id="expanded-chart"></div></div>
+  </section>
+
+  <!-- US market flow -->
+  <section>
+    <div class="section-title">🌐 US Market Insider Flow — Last 90 Days</div>
+    <div id="market-chart" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;min-height:260px"></div>
   </section>
 
   <!-- top signals -->
   <section>
-    <h2>⭐ Top Signal Alerts <span style="font-size:12px;color:var(--muted);font-weight:400">Portfolio only</span></h2>
+    <div class="section-title">⭐ Top Signal Alerts <span style="font-size:10px;color:var(--dimmer);font-weight:400;letter-spacing:0">Portfolio only</span></div>
     <div class="signal-grid" id="signal-cards"></div>
   </section>
 
   <!-- cluster & streak -->
   <section>
-    <h2>📌 Cluster & Streak Signals</h2>
+    <div class="section-title">📌 Cluster & Streak Signals</div>
     <div class="signal-grid" id="cluster-cards"></div>
   </section>
 </main>
 
 <script>
 const PORTFOLIO=["PLTR","NVDA","AAPL","MSFT","META","AMZN","GOOG","AVGO","NOW","UNH","V","MA","MELI","PANW","FTNT","MNST","LLY","AXON","MPWR","APH"];
-let ALL=[], expandedTicker=null, chartInstance=null;
+let ALL=[],expandedTicker=null,chartInstance=null,marketChart=null;
 
-// ── formatters ────────────────────────────────────────────────────────────────
+/* ── formatters ── */
 const money=v=>{if(!v)return"–";const n=Number(v);if(n>=1e9)return"$"+(n/1e9).toFixed(1)+"B";if(n>=1e6)return"$"+(n/1e6).toFixed(1)+"M";if(n>=1e3)return"$"+(n/1e3).toFixed(0)+"K";return"$"+n.toFixed(0)};
-const fmtNum=v=>v?Number(v).toLocaleString(undefined,{maximumFractionDigits:0}):"–";
-const fmtPx=v=>v?"$"+Number(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):"–";
-const fmtDate=s=>{if(!s)return"–";const d=new Date(s+"T12:00:00Z");return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"2-digit"})};
+const fmtNum=v=>v?Number(v).toLocaleString(undefined,{maximumFractionDigits:0}):"-";
+const fmtPx=v=>v?"$"+Number(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):"-";
+const fmtDate=s=>{if(!s)return"-";const d=new Date(s+"T12:00:00Z");return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"2-digit"})};
 
-// ── signal engine ─────────────────────────────────────────────────────────────
+/* ── date range helper ── */
+function makeDateRange(days){
+  const dates=[];const end=new Date();
+  for(let i=days-1;i>=0;i--){const d=new Date(end);d.setDate(d.getDate()-i);dates.push(d.toISOString().slice(0,10));}
+  return dates;
+}
+const DATES_90=makeDateRange(90);
+
+/* ── signal engine ── */
 function scoreSignal(t){
   const cat=t.txn_category||"",type=t.type||"",val=t.total_value||0;
   const role=(t.role||"").toLowerCase();
-  const isExec=/\b(ceo|cfo|coo|cto|cso|cmo|cpo|president|chairman|founder|director)\b/.test(role);
-  if(cat==="tax")  return{score:0,  label:"NEUTRAL",         cls:"sN"};
-  if(cat==="award")return{score:0.5,label:"NEUTRAL",         cls:"sN"};
+  const isExec=/\b(ceo|cfo|coo|cto|president|chairman|founder|director)\b/.test(role);
+  if(cat==="tax")  return{score:0,  label:"NEUTRAL",cls:"sN"};
+  if(cat==="award")return{score:0.5,label:"NEUTRAL",cls:"sN"};
   let s=0;
-  if(type==="BUY"&&cat==="open_market"){s=2;if(isExec)s+=1;if(val>=5e5)s+=0.5;if(val>=1e6)s+=0.5;if(val>=5e6)s+=1;if(val>=1e7)s+=1;if(val>=5e7)s+=1;}
-  else if(type==="SELL"&&cat==="open_market"){s=-2;if(isExec)s-=0.5;if(val>=1e6)s-=0.5;if(val>=5e6)s-=0.5;if(val>=1e7)s-=0.5;const after=parseFloat(t.shares_after)||0;if(t.shares_after==="0"||after===0)s-=1.5;}
-  else if(cat==="derivative"){s=type==="BUY"?0.5:-0.5;}
+  if(type==="BUY"&&cat==="open_market"){s=2;if(isExec)s+=1;if(val>=5e5)s+=.5;if(val>=1e6)s+=.5;if(val>=5e6)s+=1;if(val>=1e7)s+=1;if(val>=5e7)s+=1;}
+  else if(type==="SELL"&&cat==="open_market"){s=-2;if(isExec)s-=.5;if(val>=1e6)s-=.5;if(val>=5e6)s-=.5;if(val>=1e7)s-=.5;const a=parseFloat(t.shares_after)||0;if(t.shares_after==="0"||a===0)s-=1.5;}
+  else if(cat==="derivative"){s=type==="BUY"?.5:-.5;}
   if(s>=5) return{score:s,label:"STRONGLY BULLISH",cls:"sB2"};
-  if(s>=3) return{score:s,label:"BULLISH",          cls:"sB1"};
-  if(s>=1) return{score:s,label:"MILDLY BULLISH",   cls:"sB0"};
-  if(s>-1) return{score:s,label:"NEUTRAL",          cls:"sN"};
-  if(s>=-2.5)return{score:s,label:"MILDLY BEARISH", cls:"sBr0"};
-  if(s>=-4)  return{score:s,label:"BEARISH",        cls:"sBr1"};
+  if(s>=3) return{score:s,label:"BULLISH",cls:"sB1"};
+  if(s>=1) return{score:s,label:"MILDLY BULLISH",cls:"sB0"};
+  if(s>-1) return{score:s,label:"NEUTRAL",cls:"sN"};
+  if(s>=-2.5)return{score:s,label:"MILDLY BEARISH",cls:"sBr0"};
+  if(s>=-4)  return{score:s,label:"BEARISH",cls:"sBr1"};
   return{score:s,label:"STRONGLY BEARISH",cls:"sBr2"};
 }
 
-// ── cluster + streak ──────────────────────────────────────────────────────────
+/* ── clusters + streaks ── */
 function buildClusters(trades){
   const map={};
   trades.forEach(t=>{const k=t.ticker+"_"+t.txn_date;if(!map[k])map[k]={trades:[],insiders:new Set()};map[k].trades.push(t);map[k].insiders.add(t.insider);});
@@ -161,151 +194,138 @@ function buildStreaks(trades){
   trades.forEach(t=>{t._streak=streak(map[t.insider+"||"+t.ticker]||[]);});
 }
 
-// ── commentary ────────────────────────────────────────────────────────────────
+/* ── commentary ── */
 function commentary(t,sig){
-  const v=t.total_value||0,vm=money(v),role=t.role||"Insider",tk=t.ticker,after=parseFloat(t.shares_after)||0;
-  if(t._cluster&&t._clusterCount>=2){const dir=t._clusterDir==="BUY"?"buying":"selling";return t._clusterDir==="BUY"?"<strong>CLUSTER BUY.</strong> "+t._clusterCount+" insiders "+dir+" "+tk+" the same day — collective conviction signal.":"<strong>BEARISH CLUSTER.</strong> "+t._clusterCount+" insiders "+dir+" "+tk+" (combined ~"+money(t._clusterTotalVal)+"). Coordinated C-suite selling is a significant red flag.";}
-  if(t.type==="SELL"&&(t.shares_after==="0"||after===0))return"<strong>BEARISH.</strong> "+role+" sold ALL remaining shares ("+vm+"), leaving zero holdings. Full liquidation signals limited near-term conviction.";
-  if(t._streak>=3&&t.type==="BUY")return"<strong>STRONGLY BULLISH.</strong> "+role+" purchased "+tk+" across "+t._streak+" consecutive days — persistent accumulation signals high conviction.";
+  const v=t.total_value||0,vm=money(v),role=t.role||"Insider",tk=t.ticker,a=parseFloat(t.shares_after)||0;
+  if(t._cluster&&t._clusterCount>=2){return t._clusterDir==="BUY"?"<strong>CLUSTER BUY.</strong> "+t._clusterCount+" insiders buying "+tk+" the same day — collective conviction signal.":"<strong>BEARISH CLUSTER.</strong> "+t._clusterCount+" insiders selling "+tk+" (combined ~"+money(t._clusterTotalVal)+"). Coordinated C-suite selling is a significant red flag.";}
+  if(t.type==="SELL"&&(t.shares_after==="0"||a===0))return"<strong>BEARISH.</strong> "+role+" sold ALL remaining shares ("+vm+"), leaving zero holdings post-transaction.";
+  if(t._streak>=3&&t.type==="BUY")return"<strong>STRONGLY BULLISH.</strong> "+role+" purchased "+tk+" across "+t._streak+" consecutive days — persistent accumulation.";
   if(t._streak>=3&&t.type==="SELL")return"<strong>BEARISH PATTERN.</strong> "+role+" sold "+tk+" across "+t._streak+" consecutive days — methodical exit.";
-  if(t.type==="BUY"&&t.txn_category==="open_market"){if(v>=5e7)return"<strong>STRONGLY BULLISH.</strong> A "+vm+" open-market purchase is one of the largest conviction signals possible.";if(v>=1e7)return"<strong>STRONGLY BULLISH.</strong> A "+vm+" open-market buy by a "+role+" is a significant personal capital commitment.";if(v>=1e6)return"<strong>BULLISH.</strong> "+role+" made a "+vm+" open-market purchase — signals confidence in current valuation.";if(v>=1e5)return"<strong>MILDLY BULLISH.</strong> "+role+" bought "+vm+" in the open market.";return"<strong>NEUTRAL.</strong> Small open-market buy by "+role+".";}
-  if(t.type==="SELL"&&t.txn_category==="open_market"){if(v>=1e7)return"<strong>BEARISH.</strong> "+role+" sold "+vm+" — large-scale open-market selling warrants monitoring.";if(v>=1e6)return"<strong>MILDLY BEARISH.</strong> "+vm+" open-market sale by "+role+". Notable size worth watching.";return"<strong>NEUTRAL.</strong> Modest open-market sale by "+role+" ("+vm+").";}
-  if(t.txn_category==="derivative")return"<strong>NEUTRAL.</strong> "+role+" exercised derivative securities worth "+vm+". Typically part of a planned compensation program.";
+  if(t.type==="BUY"&&t.txn_category==="open_market"){if(v>=5e7)return"<strong>STRONGLY BULLISH.</strong> A "+vm+" open-market purchase is one of the largest conviction signals possible.";if(v>=1e7)return"<strong>STRONGLY BULLISH.</strong> A "+vm+" open-market buy by a "+role+" is a significant personal capital commitment.";if(v>=1e6)return"<strong>BULLISH.</strong> "+role+" made a "+vm+" open-market purchase — signals confidence in current valuation.";return"<strong>MILDLY BULLISH.</strong> "+role+" bought "+vm+" in the open market.";}
+  if(t.type==="SELL"&&t.txn_category==="open_market"){if(v>=1e7)return"<strong>BEARISH.</strong> "+role+" sold "+vm+" — large-scale open-market selling.";if(v>=1e6)return"<strong>MILDLY BEARISH.</strong> "+vm+" open-market sale by "+role+". Notable size.";return"<strong>NEUTRAL.</strong> Modest open-market sale by "+role+" ("+vm+").";}
+  if(t.txn_category==="derivative")return"<strong>NEUTRAL.</strong> "+role+" exercised derivative securities worth "+vm+".";
   return role+" transaction of "+vm+".";
 }
 
-// ── mini SVG chart (per tile) ─────────────────────────────────────────────────
+/* ── mini SVG chart — consistent 90-day X-axis ── */
 function miniSVG(byDate){
-  const dates=Object.keys(byDate).sort().slice(-60);
-  if(!dates.length) return null;
-  const maxVal=Math.max(...dates.map(d=>Math.max(byDate[d].buy,byDate[d].sell)),1);
-  const W=300,H=60,mid=H/2,barW=Math.max(2,Math.floor((W-dates.length)/dates.length));
+  const W=280,H=52,mid=H/2;
+  const barW=Math.max(1,Math.floor((W-90)/90)); // ~2px each
+  const maxVal=Math.max(...DATES_90.map(d=>Math.max((byDate[d]||{buy:0,sell:0}).buy,(byDate[d]||{buy:0,sell:0}).sell)),1);
   let bars="";
-  dates.forEach((d,i)=>{
+  DATES_90.forEach((d,i)=>{
     const x=i*(barW+1);
-    const bh=Math.max(1,(byDate[d].buy/maxVal)*mid);
-    const sh=Math.max(1,(byDate[d].sell/maxVal)*mid);
-    if(byDate[d].buy>0)  bars+=`<rect x="${x}" y="${mid-bh}" width="${barW}" height="${bh}" fill="#22c55e" opacity="0.85"/>`;
-    if(byDate[d].sell>0) bars+=`<rect x="${x}" y="${mid}" width="${barW}" height="${sh}" fill="#ef4444" opacity="0.85"/>`;
+    const row=byDate[d]||{buy:0,sell:0};
+    if(row.buy>0){const h=Math.max(1.5,(row.buy/maxVal)*(mid-2));bars+=`<rect x="${x}" y="${mid-h}" width="${barW}" height="${h}" fill="#22c55e" opacity="0.85"/>`;}
+    if(row.sell>0){const h=Math.max(1.5,(row.sell/maxVal)*(mid-2));bars+=`<rect x="${x}" y="${mid}" width="${barW}" height="${h}" fill="#ff3b3b" opacity="0.85"/>`;}
   });
-  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" width="100%" height="60"><line x1="0" y1="${mid}" x2="${W}" y2="${mid}" stroke="#252a3a" stroke-width="1"/>${bars}</svg>`;
+  const hasSome=DATES_90.some(d=>byDate[d]);
+  if(!hasSome)return null;
+  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" width="100%" height="${H}"><line x1="0" y1="${mid}" x2="${W}" y2="${mid}" stroke="#1e1e30" stroke-width="1"/>${bars}</svg>`;
 }
 
-// ── portfolio tiles ───────────────────────────────────────────────────────────
+/* ── portfolio tiles ── */
 function buildPortfolioGrid(){
+  const cutStr=DATES_90[0];
   const grid=document.getElementById("portfolio-grid");
-  const cutoff=new Date();cutoff.setDate(cutoff.getDate()-90);
-  const cutStr=cutoff.toISOString().slice(0,10);
-
-  // pre-compute per-ticker
   const tkData={};
   PORTFOLIO.forEach(tk=>{
     const trades=ALL.filter(t=>t.ticker===tk);
     const recent=trades.filter(t=>t.txn_date>=cutStr);
     const byDate={};
-    recent.forEach(t=>{
-      if(!byDate[t.txn_date])byDate[t.txn_date]={buy:0,sell:0};
-      if(t.type==="BUY")  byDate[t.txn_date].buy +=(t.total_value||0);
-      if(t.type==="SELL") byDate[t.txn_date].sell+=(t.total_value||0);
-    });
-    const buyTotal =recent.filter(t=>t.type==="BUY") .reduce((s,t)=>s+(t.total_value||0),0);
+    recent.forEach(t=>{if(!byDate[t.txn_date])byDate[t.txn_date]={buy:0,sell:0};if(t.type==="BUY")byDate[t.txn_date].buy+=(t.total_value||0);if(t.type==="SELL")byDate[t.txn_date].sell+=(t.total_value||0);});
+    const buyTotal=recent.filter(t=>t.type==="BUY").reduce((s,t)=>s+(t.total_value||0),0);
     const sellTotal=recent.filter(t=>t.type==="SELL").reduce((s,t)=>s+(t.total_value||0),0);
-    const company  =trades.length ? (trades[0].company||tk) : tk;
-    // aggregate signal: pick dominant open-market trade by value
+    const company=trades.length?(trades[0].company||tk):tk;
     const omTrades=recent.filter(t=>t.txn_category==="open_market");
     const topTrade=omTrades.sort((a,b)=>(b.total_value||0)-(a.total_value||0))[0];
-    const sig=topTrade ? scoreSignal(topTrade) : {label:"—",cls:"sN"};
+    const sig=topTrade?scoreSignal(topTrade):{label:"—",cls:"sN"};
     tkData[tk]={byDate,buyTotal,sellTotal,company,sig,count:recent.length};
   });
-
   grid.innerHTML=PORTFOLIO.map(tk=>{
     const d=tkData[tk];
     const svg=miniSVG(d.byDate);
-    const chartHtml=svg
-      ? `<div class="ptile-chart">${svg}</div>`
-      : `<div class="ptile-chart"><div class="no-activity">No activity (90d)</div></div>`;
     return`<div class="ptile" id="ptile-${tk}" onclick="toggleExpand('${tk}')">
-      <div class="ptile-head">
-        <div class="ptile-ticker">${tk}</div>
-        <span class="sig-badge ${d.sig.cls}" style="font-size:9px">${d.sig.label}</span>
-      </div>
+      <div class="ptile-head"><div class="ptile-ticker">${tk}</div><span class="ptile-sig ${d.sig.cls}">${d.sig.label}</span></div>
       <div class="ptile-company">${d.company}</div>
-      <div class="ptile-stats">
-        <span class="buy">↑ ${money(d.buyTotal)}</span>
-        <span class="sell">↓ ${money(d.sellTotal)}</span>
-        <span class="trades">${d.count} trades</span>
-      </div>
-      ${chartHtml}
+      <div class="ptile-stats"><span class="buy">↑ ${money(d.buyTotal)}</span><span class="sell">↓ ${money(d.sellTotal)}</span><span class="trades">${d.count} trades</span></div>
+      <div class="ptile-chart">${svg?svg:`<div class="no-act">No activity (90d)</div>`}</div>
     </div>`;
   }).join("");
 }
 
-// ── expanded chart (click tile) ───────────────────────────────────────────────
+/* ── expanded chart ── */
 function toggleExpand(ticker){
   const panel=document.getElementById("chart-panel");
-  if(expandedTicker===ticker){
-    // collapse
-    expandedTicker=null;panel.style.display="none";
-    document.querySelectorAll(".ptile").forEach(p=>p.classList.remove("active"));
-    if(chartInstance){try{chartInstance.destroy();}catch(e){}chartInstance=null;}
-    return;
-  }
+  if(expandedTicker===ticker){expandedTicker=null;panel.style.display="none";document.querySelectorAll(".ptile").forEach(p=>p.classList.remove("active"));if(chartInstance){try{chartInstance.destroy();}catch(e){}chartInstance=null;}return;}
   expandedTicker=ticker;
   document.querySelectorAll(".ptile").forEach(p=>p.classList.remove("active"));
   document.getElementById("ptile-"+ticker).classList.add("active");
-
-  const cutoff=new Date();cutoff.setDate(cutoff.getDate()-90);
-  const cutStr=cutoff.toISOString().slice(0,10);
   const byDate={};
-  ALL.filter(t=>t.ticker===ticker&&t.txn_date>=cutStr).forEach(t=>{
-    if(!byDate[t.txn_date])byDate[t.txn_date]={buy:0,sell:0};
-    if(t.type==="BUY")  byDate[t.txn_date].buy +=(t.total_value||0);
-    if(t.type==="SELL") byDate[t.txn_date].sell+=(t.total_value||0);
-  });
-  const dates=Object.keys(byDate).sort();
-  const buyVals =dates.map(d=> Math.round(byDate[d].buy /1000));
-  const sellVals=dates.map(d=>-Math.round(byDate[d].sell/1000));
-
-  document.getElementById("chart-panel-title").textContent=ticker+" — Insider Buy vs Sell (90 days)";
-  panel.style.display="block";
-  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
-
-  const el=document.getElementById("expanded-chart");
-  el.innerHTML="";
+  ALL.filter(t=>t.ticker===ticker&&t.txn_date>=DATES_90[0]).forEach(t=>{if(!byDate[t.txn_date])byDate[t.txn_date]={buy:0,sell:0};if(t.type==="BUY")byDate[t.txn_date].buy+=(t.total_value||0);if(t.type==="SELL")byDate[t.txn_date].sell+=(t.total_value||0);});
+  const buyVals=DATES_90.map(d=>Math.round((byDate[d]||{buy:0}).buy/1000));
+  const sellVals=DATES_90.map(d=>-Math.round((byDate[d]||{sell:0}).sell/1000));
+  document.getElementById("chart-panel-title").textContent=ticker+" — Insider Buy vs Sell (90 Days)";
+  panel.style.display="block";panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  const el=document.getElementById("expanded-chart");el.innerHTML="";
   if(chartInstance){try{chartInstance.destroy();}catch(e){}chartInstance=null;}
-
-  if(!dates.length){el.innerHTML="<p style='color:var(--muted);padding:30px;text-align:center'>No activity in the last 90 days.</p>";return;}
-
   chartInstance=new ApexCharts(el,{
     series:[{name:"Buy ($K)",data:buyVals},{name:"Sell ($K)",data:sellVals}],
-    chart:{type:"bar",stacked:true,height:280,background:"transparent",toolbar:{show:false},animations:{enabled:false}},
-    colors:["#22c55e","#ef4444"],
-    plotOptions:{bar:{columnWidth:"70%",borderRadius:2}},
+    chart:{type:"bar",stacked:true,height:260,background:"transparent",toolbar:{show:false},animations:{enabled:false}},
+    colors:["#22c55e","#ff3b3b"],
+    plotOptions:{bar:{columnWidth:"80%",borderRadius:1}},
     dataLabels:{enabled:false},
-    xaxis:{categories:dates,labels:{style:{colors:"#6b7280",fontSize:"11px"},rotate:-45,hideOverlappingLabels:true},axisBorder:{color:"#252a3a"},axisTicks:{color:"#252a3a"}},
-    yaxis:{labels:{style:{colors:"#6b7280",fontSize:"11px"},formatter:v=>(v>=0?"+$":"-$")+Math.abs(v)+"K"}},
-    grid:{borderColor:"#1e2130",strokeDashArray:3},
-    legend:{labels:{colors:"#9ca3af"},position:"top"},
-    tooltip:{theme:"dark",y:{formatter:v=>"$"+Math.abs(v).toLocaleString()+"K"}}
+    xaxis:{categories:DATES_90,labels:{show:false},axisBorder:{color:"#1e1e30"},axisTicks:{color:"#1e1e30"}},
+    yaxis:{labels:{style:{colors:"#9999cc",fontSize:"11px",fontFamily:"IBM Plex Mono,monospace"},formatter:v=>(v>=0?"+$":"-$")+Math.abs(v)+"K"}},
+    grid:{borderColor:"#1e1e30",strokeDashArray:3},
+    legend:{labels:{colors:"#9999cc",fontFamily:"IBM Plex Mono,monospace"},position:"top"},
+    tooltip:{theme:"dark",x:{formatter:(_,opts)=>DATES_90[opts.dataPointIndex]},y:{formatter:v=>"$"+Math.abs(v).toLocaleString()+"K"}}
   });
   chartInstance.render();
 }
 
-// ── signal cards ──────────────────────────────────────────────────────────────
+/* ── US market flow chart ── */
+async function loadMarketFlow(){
+  const el=document.getElementById("market-chart");
+  try{
+    const r=await fetch("market_flow.json?_="+Date.now());
+    if(!r.ok)throw new Error("not found");
+    const data=await r.json();
+    if(!Array.isArray(data)||!data.length)throw new Error("empty");
+    const last90=data.slice(-90);
+    const dates=last90.map(x=>x.date);
+    const buys=last90.map(x=>Math.round((x.buy_value||0)/1e6));
+    const sells=last90.map(x=>-Math.round((x.sell_value||0)/1e6));
+    el.innerHTML="";
+    if(marketChart){try{marketChart.destroy();}catch(e){}}
+    marketChart=new ApexCharts(el,{
+      series:[{name:"Buy ($M)",data:buys},{name:"Sell ($M)",data:sells}],
+      chart:{type:"bar",stacked:true,height:240,background:"transparent",toolbar:{show:false},animations:{enabled:false}},
+      colors:["#22c55e","#ff3b3b"],
+      plotOptions:{bar:{columnWidth:"85%",borderRadius:1}},
+      dataLabels:{enabled:false},
+      xaxis:{categories:dates,labels:{show:false},axisBorder:{color:"#1e1e30"}},
+      yaxis:{labels:{style:{colors:"#9999cc",fontSize:"11px",fontFamily:"IBM Plex Mono,monospace"},formatter:v=>(v>=0?"+$":"-$")+Math.abs(v)+"M"}},
+      grid:{borderColor:"#1e1e30",strokeDashArray:3},
+      legend:{labels:{colors:"#9999cc",fontFamily:"IBM Plex Mono,monospace"},position:"top"},
+      tooltip:{theme:"dark",x:{formatter:(_,opts)=>dates[opts.dataPointIndex]},y:{formatter:v=>"$"+Math.abs(v).toLocaleString()+"M"}}
+    });
+    marketChart.render();
+  }catch(e){
+    el.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:200px;flex-direction:column;gap:10px">
+      <div style="color:var(--dimmer);font-family:'IBM Plex Mono',monospace;font-size:12px">market_flow.json not found</div>
+      <div style="color:var(--dimmer);font-family:'IBM Plex Mono',monospace;font-size:11px">Run fetch_market_flow.py to generate US market data</div>
+    </div>`;
+  }
+}
+
+/* ── signal cards ── */
 function renderSignalCards(trades,containerId,filterFn){
   const el=document.getElementById(containerId);if(!el)return;
-  const portfolioSet=new Set(PORTFOLIO);
-  const scored=trades
-    .filter(t=>portfolioSet.has(t.ticker))
-    .map(t=>({t,sig:scoreSignal(t)}))
-    .filter(filterFn)
-    .sort((a,b)=>Math.abs(b.sig.score)-Math.abs(a.sig.score));
+  const ps=new Set(PORTFOLIO);
+  const scored=trades.filter(t=>ps.has(t.ticker)).map(t=>{return{t,sig:scoreSignal(t)};  }).filter(filterFn).sort((a,b)=>Math.abs(b.sig.score)-Math.abs(a.sig.score));
   const seen=new Set(),top=[];
-  for(const{t,sig}of scored){
-    const k=t._cluster?t.ticker+"_"+t.txn_date+t._clusterDir:t.insider+"||"+t.ticker+"_"+t.txn_date;
-    if(!seen.has(k)){seen.add(k);top.push({t,sig});}
-    if(top.length>=8)break;
-  }
+  for(const{t,sig}of scored){const k=t._cluster?t.ticker+"_"+t.txn_date+t._clusterDir:t.insider+"||"+t.ticker+"_"+t.txn_date;if(!seen.has(k)){seen.add(k);top.push({t,sig});}if(top.length>=8)break;}
   if(!top.length){el.innerHTML="<p class='no-sig'>No signals in the current window.</p>";return;}
   el.innerHTML=top.map(({t,sig})=>{
     const flags=[];
@@ -317,17 +337,15 @@ function renderSignalCards(trades,containerId,filterFn){
   }).join("");
 }
 
-// ── load ──────────────────────────────────────────────────────────────────────
+/* ── load ── */
 async function load(){
   try{
     const r=await fetch("trades.json?_="+Date.now());
     const data=await r.json();
     ALL=data.trades||[];
-    document.getElementById("updated").textContent="Last updated: "+(data.updated_at||"unknown");
+    document.getElementById("updated").textContent=data.updated_at||"unknown";
     buildClusters(ALL);buildStreaks(ALL);
     ALL.forEach(t=>{t._sigScore=scoreSignal(t).score;});
-
-    // stat cards
     const buys=ALL.filter(t=>t.type==="BUY"),sells=ALL.filter(t=>t.type==="SELL");
     document.getElementById("s-total").textContent=ALL.length;
     document.getElementById("s-buys").textContent=buys.length;
@@ -335,16 +353,15 @@ async function load(){
     document.getElementById("s-tickers").textContent=new Set(ALL.map(t=>t.ticker)).size;
     document.getElementById("s-bigbuy").textContent=money(buys.reduce((m,t)=>Math.max(m,t.total_value||0),0));
     document.getElementById("s-bigsell").textContent=money(sells.reduce((m,t)=>Math.max(m,t.total_value||0),0));
-
     buildPortfolioGrid();
     renderSignalCards(ALL,"signal-cards",({t,sig})=>Math.abs(sig.score)>=1.5||(t._cluster&&t._clusterCount>=2));
     renderSignalCards(ALL,"cluster-cards",({t})=>(t._cluster&&t._clusterCount>=2)||(t._streak&&t._streak>=2));
   }catch(e){
-    document.getElementById("updated").textContent="⚠ Could not load trades.json — run fetch_trades.py first";
+    document.getElementById("updated").textContent="⚠ Could not load trades.json";
     ["signal-cards","cluster-cards"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML="<p class='no-sig'>No data yet.</p>";});
   }
+  loadMarketFlow();
 }
-
 load();
 </script>
 </body>
