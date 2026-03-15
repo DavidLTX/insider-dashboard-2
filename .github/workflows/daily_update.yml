@@ -2,8 +2,8 @@ name: Daily Insider Trades Update
 
 on:
   schedule:
-    - cron: "0 22 * * *"   # 22:00 UTC = 05:00 SGT / 06:00 AEST next day (after US market close)
-  workflow_dispatch:        # allow manual trigger from GitHub UI
+    - cron: "0 22 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -26,10 +26,13 @@ jobs:
       - name: Fetch insider trades
         run: python fetch_trades.py
 
-      - name: Commit & push trades.json
+      - name: Fetch US market insider flow
+        run: python fetch_market_flow.py
+
+      - name: Commit & push trades.json and market_flow.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add trades.json
-          git diff --cached --quiet || git commit -m "chore: update insider trades [$(date -u +%Y-%m-%d)]"
+          git add trades.json market_flow.json
+          git diff --cached --quiet || git commit -m "chore: update insider data [$(date -u +%Y-%m-%d)]"
           git push
