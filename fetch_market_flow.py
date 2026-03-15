@@ -68,9 +68,9 @@ def parse_nonderiv(zip_bytes):
                     val  = sh * px
                     if not date or len(date) != 10: continue
                     if code == "P" or (acq == "A" and code not in ("A","M","X","V","I","F","D","G","W")):
-                        rows.append({"date": date, "buy": val, "sell": 0})
+                        rows.append({"date": date, "is_buy": True,  "value": val})
                     elif code == "S" or (acq == "D" and code not in ("F","D","G","W","A","M","X")):
-                        rows.append({"date": date, "buy": 0, "sell": val})
+                        rows.append({"date": date, "is_buy": False, "value": val})
                 except: continue
     print(f"  {len(rows):,} rows parsed")
     return rows
@@ -91,12 +91,10 @@ def main():
     for row in all_rows:
         if row["date"] < cutoff: continue
         d = by_date[row["date"]]
-        if row["is_buy"]:
-            d["buy_count"]  += 1
-            d["buy_value"]  += row["value"]   # 0 when price not reported, that's fine
-        else:
-            d["sell_count"] += 1
-            d["sell_value"] += row["value"]
+        d["buy_value"]  += row["buy"]
+        d["sell_value"] += row["sell"]
+        if row["buy"]  > 0: d["buy_count"]  += 1
+        if row["sell"] > 0: d["sell_count"] += 1
 
     series = [{"date": dt, **v} for dt, v in sorted(by_date.items())]
     with open("market_flow.json","w") as fh:
