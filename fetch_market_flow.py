@@ -68,9 +68,9 @@ def parse_nonderiv(zip_bytes):
                     val  = sh * px
                     if not date or len(date) != 10: continue
                     if code == "P" or (acq == "A" and code not in ("A","M","X","V","I","F","D","G","W")):
-                        rows.append({"date": date, "is_buy": True,  "value": val})
+                        rows.append({"date": date, "buy": val, "sell": 0})
                     elif code == "S" or (acq == "D" and code not in ("F","D","G","W","A","M","X")):
-                        rows.append({"date": date, "is_buy": False, "value": val})
+                        rows.append({"date": date, "buy": 0, "sell": val})
                 except: continue
     print(f"  {len(rows):,} rows parsed")
     return rows
@@ -91,20 +91,26 @@ def main():
     for row in all_rows:
         if row["date"] < cutoff: continue
         d = by_date[row["date"]]
-        d["buy_value"]  += row["buy"]
-        d["sell_value"] += row["sell"]
-        if row["buy"]  > 0: d["buy_count"]  += 1
-        if row["sell"] > 0: d["sell_count"] += 1
+        if row["is_buy"]:
+            d["buy_count"]  += 1
+            d["buy_value"]  += row["value"]
+        else:
+            d["sell_count"] += 1
+            d["sell_value"] += row["value"]
 
     series = [{"date": dt, **v} for dt, v in sorted(by_date.items())]
     with open("market_flow.json","w") as fh:
         json.dump(series, fh, indent=2)
 
-    total_buy  = sum(x["buy_value"]  for x in series)
-    total_sell = sum(x["sell_value"] for x in series)
+    total_buy   = sum(x["buy_value"]  for x in series)
+    total_sell  = sum(x["sell_value"] for x in series)
+    total_buys  = sum(x["buy_count"]  for x in series)
+    total_sells = sum(x["sell_count"] for x in series)
     print(f"\nDone — {len(series)} days written to market_flow.json")
-    print(f"  Total buy:  ${total_buy/1e9:.2f}B")
-    print(f"  Total sell: ${total_sell/1e9:.2f}B")
+    print(f"  Buy trades:  {total_buys:,}")
+    print(f"  Sell trades: {total_sells:,}")
+    print(f"  Total buy value:  ${total_buy/1e9:.2f}B")
+    print(f"  Total sell value: ${total_sell/1e9:.2f}B")
 
 if __name__ == "__main__":
     main()
