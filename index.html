@@ -28,7 +28,6 @@
   }
   *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; }
-
   .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: flex-start; justify-content: space-between; position: sticky; top: 0; z-index: 100; gap: 1rem; }
   .header-left h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: .05em; color: var(--accent-blue); }
   .header-left h1 span { color: var(--text); }
@@ -37,13 +36,10 @@
   .auto-refresh { color: var(--accent-green); font-size: .72rem; letter-spacing: .05em; }
   .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-green); margin-right: .3rem; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
   main { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
   .data-section { margin-bottom: 2rem; }
-
   .section-title { font-size: .82rem; font-weight: 700; letter-spacing: .05em; color: #c9d5e0; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .5rem; }
   .section-title::after { display: none; }
-
   .summary-row { display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap: .75rem; margin-bottom: 1.5rem; }
   .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: .5rem; padding: .75rem 1rem; text-align: center; }
   .summary-card .val { font-size: 1.6rem; font-weight: 700; line-height: 1; }
@@ -53,7 +49,6 @@
   .val-red    { color: var(--accent-red); }
   .val-yellow { color: var(--accent-yellow); }
   .val-orange { color: var(--accent-orange); }
-
   .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: .75rem; }
   .ptile { background: var(--surface); border: 1px solid var(--border); border-radius: .6rem; padding: .875rem 1rem; cursor: pointer; position: relative; overflow: hidden; transition: border-color .2s, transform .15s; }
   .ptile:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.2); }
@@ -68,14 +63,11 @@
   .ptile-stats .trades { color: #b0bcc8; }
   .ptile-chart { width: 100%; height: 50px; }
   .no-act { font-size: .7rem; color: #8b99a8; text-align: center; line-height: 50px; font-family: monospace; font-style: italic; }
-
   #chart-panel { background: var(--surface); border: 1px solid var(--border); border-radius: .6rem; padding: 1.25rem 1.5rem; display: none; margin-top: .75rem; }
   #chart-panel-title { font-size: .75rem; font-weight: 700; color: #b0bcc8; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .875rem; font-family: monospace; }
-
   #market-chart { background: var(--surface); border: 1px solid var(--border); border-radius: .6rem; padding: 1.25rem; min-height: 240px; }
   .market-placeholder { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .5rem; height: 200px; }
   .market-placeholder p { color: #b0bcc8; font-family: monospace; font-size: .75rem; }
-
   .signal-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: .75rem; }
   .sc { background: var(--surface); border: 1px solid var(--border); border-radius: .6rem; padding: 1rem; display: flex; flex-direction: column; gap: .625rem; transition: border-color .2s, transform .15s; }
   .sc:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.2); }
@@ -104,9 +96,7 @@
   .sc-commentary { font-size: .78rem; color: #adbac7; line-height: 1.6; border-top: 1px solid var(--border); padding-top: .625rem; }
   .sc-commentary strong { color: var(--text); }
   .no-sig { color: #b0bcc8; font-size: .75rem; padding: .625rem 0; font-family: monospace; font-style: italic; }
-
   .footer { text-align: center; padding: .875rem 1.5rem; font-size: .72rem; color: #b0bcc8; border-top: 1px solid var(--border); margin-top: .5rem; font-family: monospace; }
-
   @media (max-width: 640px) {
     .header { padding: 1rem; }
     main { padding: 1rem; }
@@ -317,13 +307,21 @@ async function loadMarketFlow(){
     const data=await r.json();
     if(!Array.isArray(data)||!data.length)throw new Error("empty");
     const last90=data.slice(-90);
+    function _parseISODate(s){
+      if(!s||s.length<10)return null;
+      const _s=s.slice(0,10);
+      if(/^\d{4}-\d{2}-\d{2}$/.test(_s))return new Date(_s+'T12:00:00Z');
+      if(/^\d{2}\/\d{2}\/\d{4}$/.test(_s)){const p=_s.split('/');return new Date(p[2]+'-'+p[0]+'-'+p[1]+'T12:00:00Z');}
+      return null;
+    }
     let _endDate=null;
     for(let i=last90.length-1;i>=0;i--){
       const _d=last90[i]&&last90[i].date;
-      if(_d&&_d.length===10){_endDate=_d;break;}
+      const _dt=_parseISODate(_d);
+      if(_dt&&!isNaN(_dt)){_endDate=_dt;break;}
     }
     if(_endDate){
-      const _fmt=new Date(_endDate+'T12:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      const _fmt=_endDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
       const _el1=document.getElementById('market-summary-title');
       const _el2=document.getElementById('market-flow-title');
       if(_el1)_el1.textContent='🌐 US Market Summary — Data to '+_fmt;
