@@ -96,6 +96,12 @@ main{max-width:1400px;margin:0 auto;padding:20px 24px 40px}
   <div class="header-left">
     <h1>INSIDER <span>INTEL</span></h1>
     <div class="subtitle">Portfolio Insider Trades Tracker — SEC Form 4</div>
+    <div class="header-badges">
+      <span class="badge badge-blue"  id="b-total">– trades</span>
+      <span class="badge badge-green" id="b-buys">– buys</span>
+      <span class="badge badge-red"   id="b-sells">– sells</span>
+      <span class="badge badge-yellow" id="b-tickers">– tickers</span>
+    </div>
   </div>
   <div class="header-timestamp">
     <div class="auto-refresh"><span class="live-dot"></span>AUTO-REFRESHES DAILY</div>
@@ -277,7 +283,7 @@ function toggleExpand(ticker){
     chart:{type:"bar",stacked:true,height:240,background:"transparent",toolbar:{show:false},animations:{enabled:false}},
     colors:["#3fb950","#f85149"],plotOptions:{bar:{columnWidth:"80%",borderRadius:1}},dataLabels:{enabled:false},
     xaxis:{categories:DATES_90,labels:{show:false},axisBorder:{color:"#30363d"},axisTicks:{color:"#30363d"}},
-    yaxis:{labels:{style:{colors:"#8b949e",fontSize:"11px",fontFamily:"monospace"},formatter:v=>(v>=0?"+$":"-$")+Math.abs(v)+"K"}},
+    yaxis:{labels:{style:{colors:"#8b949e",fontSize:"11px",fontFamily:"monospace"},formatter:v=>(v>=0?"+":"-")+Math.abs(Math.round(v))+" txns"}},
     grid:{borderColor:"#30363d",strokeDashArray:3},legend:{labels:{colors:"#8b949e",fontFamily:"monospace"},position:"top"},
     tooltip:{theme:"dark",x:{formatter:(_,o)=>DATES_90[o.dataPointIndex]},y:{formatter:v=>"$"+Math.abs(v).toLocaleString()+"K"}}
   });
@@ -292,6 +298,14 @@ async function loadMarketFlow(){
     const data=await r.json();
     if(!Array.isArray(data)||!data.length)throw new Error("empty");
     const last90=data.slice(-90);
+    const _endDate=last90[last90.length-1]&&last90[last90.length-1].date;
+    if(_endDate){
+      const _fmt=new Date(_endDate+'T12:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      const _el1=document.getElementById('market-summary-title');
+      const _el2=document.getElementById('market-flow-title');
+      if(_el1)_el1.textContent='\u{1F310} US Market Summary \u2014 Data to '+_fmt;
+      if(_el2)_el2.textContent='\u{1F310} US Market Insider Flow \u2014 Data to '+_fmt;
+    }
     // populate US Market Summary cards
     const totalBuy  =last90.reduce((s,x)=>s+(x.buy_value||0),0);
     const totalSell =last90.reduce((s,x)=>s+(x.sell_value||0),0);
@@ -307,13 +321,19 @@ async function loadMarketFlow(){
     el.innerHTML="";
     if(marketChart){try{marketChart.destroy();}catch(e){}}
     marketChart=new ApexCharts(el,{
-      series:[{name:"Buy ($M)",data:last90.map(x=>Math.round((x.buy_value||0)/1e6))},{name:"Sell ($M)",data:last90.map(x=>-Math.round((x.sell_value||0)/1e6))}],
+      series:[{name:"Buys",data:last90.map(x=>x.buy_count||0)},{name:"Sells",data:last90.map(x=>-(x.sell_count||0))}],
       chart:{type:"bar",stacked:true,height:220,background:"transparent",toolbar:{show:false},animations:{enabled:false}},
       colors:["#3fb950","#f85149"],plotOptions:{bar:{columnWidth:"85%",borderRadius:1}},dataLabels:{enabled:false},
       xaxis:{categories:last90.map(x=>x.date),labels:{show:false},axisBorder:{color:"#30363d"}},
-      yaxis:{labels:{style:{colors:"#8b949e",fontSize:"11px",fontFamily:"monospace"},formatter:v=>(v>=0?"+$":"-$")+Math.abs(v)+"M"}},
+      yaxis:{labels:{style:{colors:"#8b949e",fontSize:"11px",fontFamily:"monospace"},formatter:v=>(v>=0?"+":"-")+Math.abs(Math.round(v))+" txns"}},
       grid:{borderColor:"#30363d",strokeDashArray:3},legend:{labels:{colors:"#8b949e",fontFamily:"monospace"},position:"top"},
-      tooltip:{theme:"dark",x:{formatter:(_,o)=>last90[o.dataPointIndex].date},y:{formatter:v=>"$"+Math.abs(v).toLocaleString()+"M"}}
+      tooltip:{theme:"dark",x:{formatter:(_,o)=>last90[o.dataPointIndex].date},y:{formatter:(v,{seriesIndex,dataPointIndex})=>{
+          const row=last90[dataPointIndex];
+          const cnt=Math.abs(Math.round(v));
+          const val=seriesIndex===0?(row.buy_value||0):(row.sell_value||0);
+          const vs=val>0?" ($"+parseFloat((val/1e6).toFixed(2))+"M)":"";
+          return cnt+" trades"+vs;
+        }}}
     });
     marketChart.render();
   }catch(e){
@@ -355,6 +375,10 @@ async function load(){
     document.getElementById("s-tickers").textContent=tickers.size;
     document.getElementById("s-buytotal").textContent=money(buys.reduce((s,t)=>s+(t.total_value||0),0));
     document.getElementById("s-selltotal").textContent=money(sells.reduce((s,t)=>s+(t.total_value||0),0));
+    document.getElementById("b-total").textContent=ALL.length+" trades";
+    document.getElementById("b-buys").textContent=buys.length+" buys";
+    document.getElementById("b-sells").textContent=sells.length+" sells";
+    document.getElementById("b-tickers").textContent=tickers.size+" tickers";
     buildPortfolioGrid();
     renderSignalCards(ALL,"signal-cards",({t,sig})=>Math.abs(sig.score)>=1.5||(t._cluster&&t._clusterCount>=2));
     renderSignalCards(ALL,"cluster-cards",({t})=>(t._cluster&&t._clusterCount>=2)||(t._streak&&t._streak>=2));
