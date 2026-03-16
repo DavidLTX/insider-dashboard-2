@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """
 Fetch US market insider buy/sell flow from SEC quarterly Form 3/4/5 datasets.
-SEC publishes data with a ~1 quarter lag — we use the last 2 completed quarters.
-Confirmed URL: https://www.sec.gov/files/structureddata/data/
-               insider-transactions-data-sets/{year}q{quarter}_form345.zip
-Writes market_flow.json with daily buy/sell for last 90 days.
+Counts every open-market buy (P) and sell (S) transaction regardless of whether
+price was reported. Dollar values captured only when price is available.
 """
 import requests, json, zipfile, io, csv
 from datetime import datetime, timedelta
@@ -15,11 +13,9 @@ BASE_URL = "https://www.sec.gov/files/structureddata/data/insider-transactions-d
 LOOKBACK = 90
 
 def completed_quarters(n=2):
-    """Return the last n COMPLETED quarters (never the current in-progress quarter)."""
     today = datetime.utcnow()
     current_q = (today.month - 1) // 3 + 1
     current_y = today.year
-    # step back one quarter to get the most recent completed one
     q, y = current_q - 1, current_y
     if q == 0:
         q, y = 4, y - 1
@@ -29,7 +25,7 @@ def completed_quarters(n=2):
         q -= 1
         if q == 0:
             q, y = 4, y - 1
-    return pairs  # most recent first
+    return pairs
 
 def fetch_zip(year, qtr):
     url = f"{BASE_URL}/{year}q{qtr}_form345.zip"
@@ -44,6 +40,21 @@ def fetch_zip(year, qtr):
     except Exception as e:
         print(f"  Error: {e}"); return None
 
+def normalise_date(raw):
+    """Convert any date string to YYYY-MM-DD. Returns '' if unparseable."""
+    s = raw.strip()
+    # Already YYYY-MM-DD
+    if len(s) >= 10 and s[4] == "-" and s[7] == "-":
+        return s[:10]
+    # MM/DD/YYYY
+    if len(s) >= 10 and s[2] == "/" and s[5] == "/":
+        p = s[:10].split("/")
+        return f"{p[2]}-{p[0]}-{p[1]}"
+    # YYYYMMDD (no separators)
+    if len(s) >= 8 and s.isdigit():
+        return f"{s[:4]}-{s[4:6]}-{s[6:8]}"
+    return ""
+
 def parse_nonderiv(zip_bytes):
     rows = []
     with zipfile.ZipFile(io.BytesIO(zip_bytes)) as z:
@@ -53,6 +64,7 @@ def parse_nonderiv(zip_bytes):
         if not tsv:
             print("  NONDERIV_TRANS not found in archive"); return rows
         print(f"  Parsing: {tsv}")
+        sample_dates = []
         with z.open(tsv) as fh:
             reader = csv.DictReader(
                 io.TextIOWrapper(fh, encoding="utf-8", errors="replace"),
@@ -60,28 +72,21 @@ def parse_nonderiv(zip_bytes):
             )
             for row in reader:
                 try:
-                    _raw = (row.get("TRANS_DATE","") or row.get("transactionDate","")).strip()
-                    # Normalise to YYYY-MM-DD regardless of source format
-                    if len(_raw) >= 10:
-                        _s = _raw[:10]
-                        if _s[2] == "/" and _s[5] == "/":  # MM/DD/YYYY
-                            _p = _s.split("/")
-                            _s = f"{_p[2]}-{_p[0]}-{_p[1]}"
-                        date = _s
-                    else:
-                        date = ""
+                    raw_date = (row.get("TRANS_DATE","") or row.get("transactionDate",""))
+                    date = normalise_date(raw_date)
+                    if not date or len(date) != 10: continue
+                    if len(sample_dates) < 3: sample_dates.append(raw_date.strip()[:12])
                     code = (row.get("TRANS_CODE","") or row.get("transactionCode","")).strip().upper()
                     acq  = (row.get("TRANS_ACQUIRED_DISP_CD","") or row.get("acquiredDisposedCode","")).strip().upper()
                     sh   = float((row.get("TRANS_SHARES","") or row.get("transactionShares","") or "0").replace(",","") or 0)
                     px   = float((row.get("TRANS_PRICE_PER_SHARE","") or row.get("transactionPricePerShare","") or "0").replace(",","") or 0)
                     val  = sh * px
-                    if not date or len(date) != 10: continue
                     if code == "P" or (acq == "A" and code not in ("A","M","X","V","I","F","D","G","W")):
-                        rows.append({"date": date, "buy": val, "sell": 0})
+                        rows.append({"date": date, "is_buy": True,  "value": val})
                     elif code == "S" or (acq == "D" and code not in ("F","D","G","W","A","M","X")):
-                        rows.append({"date": date, "buy": 0, "sell": val})
+                        rows.append({"date": date, "is_buy": False, "value": val})
                 except: continue
-    print(f"  {len(rows):,} rows parsed")
+        print(f"  {len(rows):,} rows parsed  |  sample raw dates: {sample_dates}")
     return rows
 
 def main():
@@ -100,20 +105,29 @@ def main():
     for row in all_rows:
         if row["date"] < cutoff: continue
         d = by_date[row["date"]]
-        d["buy_value"]  += row["buy"]
-        d["sell_value"] += row["sell"]
-        if row["buy"]  > 0: d["buy_count"]  += 1
-        if row["sell"] > 0: d["sell_count"] += 1
+        if row["is_buy"]:
+            d["buy_count"]  += 1          # always count
+            d["buy_value"]  += row["value"]
+        else:
+            d["sell_count"] += 1          # always count
+            d["sell_value"] += row["value"]
 
     series = [{"date": dt, **v} for dt, v in sorted(by_date.items())]
     with open("market_flow.json","w") as fh:
         json.dump(series, fh, indent=2)
 
-    total_buy  = sum(x["buy_value"]  for x in series)
-    total_sell = sum(x["sell_value"] for x in series)
+    total_buy   = sum(x["buy_value"]  for x in series)
+    total_sell  = sum(x["sell_value"] for x in series)
+    total_buys  = sum(x["buy_count"]  for x in series)
+    total_sells = sum(x["sell_count"] for x in series)
     print(f"\nDone — {len(series)} days written to market_flow.json")
-    print(f"  Total buy:  ${total_buy/1e9:.2f}B")
-    print(f"  Total sell: ${total_sell/1e9:.2f}B")
+    print(f"  Buy trades:  {total_buys:,}")
+    print(f"  Sell trades: {total_sells:,}")
+    print(f"  Total buy value:  ${total_buy/1e9:.2f}B")
+    print(f"  Total sell value: ${total_sell/1e9:.2f}B")
+    if series:
+        print(f"  First entry: {series[0]}")
+        print(f"  Last entry:  {series[-1]}")
 
 if __name__ == "__main__":
     main()
