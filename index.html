@@ -269,9 +269,9 @@ function toggleExpand(ticker){
     chart:{type:"bar",stacked:true,height:240,background:"transparent",toolbar:{show:false},animations:{enabled:false}},
     colors:["#3fb950","#f85149"],plotOptions:{bar:{columnWidth:"80%",borderRadius:1}},dataLabels:{enabled:false},
     xaxis:{categories:DATES_90,labels:{show:false},axisBorder:{color:"#30363d"},axisTicks:{color:"#30363d"}},
-    yaxis:{labels:{style:{colors:"#8b949e",fontSize:"11px",fontFamily:"monospace"},formatter:v=>(v>=0?"+$":"-$")+Math.abs(v)+"K"}},
+    yaxis:{labels:{style:{colors:"#8b949e",fontSize:"11px",fontFamily:"monospace"},formatter:v=>{const a=Math.abs(v);const s=v>=0?"+$":"-$";return a>=1000?s+(a/1000).toFixed(1)+"M":s+a+"K";}}},
     grid:{borderColor:"#30363d",strokeDashArray:3},legend:{labels:{colors:"#8b949e",fontFamily:"monospace"},position:"top"},
-    tooltip:{theme:"dark",x:{formatter:(_,o)=>DATES_90[o.dataPointIndex]},y:{formatter:v=>"$"+Math.abs(v).toLocaleString()+"K"}}
+    tooltip:{theme:"dark",x:{formatter:(_,o)=>DATES_90[o.dataPointIndex]},y:{formatter:v=>{const a=Math.abs(v);return a>=1000?"$"+(a/1000).toFixed(2)+"M":"$"+a.toLocaleString()+"K";}}}
   });
   chartInstance.render();
 }
