@@ -1,758 +1,758 @@
 [
   {
     "date": "21-APR-202",
+    "buy_count": 9,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-AUG-202",
+    "buy_count": 141,
+    "sell_count": 409,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-DEC-202",
+    "buy_count": 1,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-FEB-202",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 1,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "21-JAN-202",
+    "buy_count": 4,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-JUL-202",
+    "buy_count": 61,
+    "sell_count": 240,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-JUN-202",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 1,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "21-MAY-202",
+    "buy_count": 2,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-NOV-202",
+    "buy_count": 193,
+    "sell_count": 493,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "21-OCT-202",
+    "buy_count": 57,
+    "sell_count": 179,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-APR-202",
+    "buy_count": 1,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-AUG-202",
+    "buy_count": 105,
+    "sell_count": 657,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-DEC-202",
+    "buy_count": 85,
+    "sell_count": 356,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-JAN-202",
+    "buy_count": 1,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-JUL-202",
+    "buy_count": 44,
+    "sell_count": 221,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-MAR-202",
+    "buy_count": 4,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-MAY-202",
+    "buy_count": 10,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-NOV-202",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 1,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "22-OCT-202",
+    "buy_count": 45,
+    "sell_count": 204,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "22-SEP-202",
+    "buy_count": 73,
+    "sell_count": 436,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-APR-202",
+    "buy_count": 1,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-DEC-202",
+    "buy_count": 75,
+    "sell_count": 187,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-JAN-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-JUL-202",
+    "buy_count": 56,
+    "sell_count": 239,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-JUN-202",
+    "buy_count": 11,
+    "sell_count": 12,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-MAY-202",
+    "buy_count": 2,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-OCT-202",
+    "buy_count": 61,
+    "sell_count": 146,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "23-SEP-202",
+    "buy_count": 49,
+    "sell_count": 250,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-APR-202",
+    "buy_count": 7,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-DEC-202",
+    "buy_count": 54,
+    "sell_count": 121,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-FEB-202",
+    "buy_count": 2,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-JAN-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-JUL-202",
+    "buy_count": 77,
+    "sell_count": 171,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-JUN-202",
+    "buy_count": 8,
+    "sell_count": 21,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-MAY-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-NOV-202",
+    "buy_count": 131,
+    "sell_count": 618,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-OCT-202",
+    "buy_count": 61,
+    "sell_count": 188,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "24-SEP-202",
+    "buy_count": 44,
+    "sell_count": 215,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-APR-202",
+    "buy_count": 2,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-AUG-202",
+    "buy_count": 111,
+    "sell_count": 381,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-DEC-202",
+    "buy_count": 6,
+    "sell_count": 14,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-FEB-202",
+    "buy_count": 3,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-JAN-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-JUL-002",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 1,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "25-JUL-202",
+    "buy_count": 95,
+    "sell_count": 216,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-JUN-202",
+    "buy_count": 10,
+    "sell_count": 6,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-MAR-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-MAY-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-NOV-202",
+    "buy_count": 134,
+    "sell_count": 464,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-OCT-202",
+    "buy_count": 7,
+    "sell_count": 2,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "25-SEP-202",
+    "buy_count": 58,
+    "sell_count": 231,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-AUG-202",
+    "buy_count": 113,
+    "sell_count": 301,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-DEC-202",
+    "buy_count": 56,
+    "sell_count": 84,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-FEB-202",
+    "buy_count": 2,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-JAN-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-JUN-202",
+    "buy_count": 9,
+    "sell_count": 5,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-MAR-202",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 1,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "26-MAY-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-NOV-202",
+    "buy_count": 119,
+    "sell_count": 256,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "26-SEP-202",
+    "buy_count": 95,
+    "sell_count": 125,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-APR-202",
+    "buy_count": 2,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-AUG-202",
+    "buy_count": 99,
+    "sell_count": 334,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-DEC-202",
+    "buy_count": 2,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-FEB-202",
+    "buy_count": 8,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-JUL-202",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 1,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "27-JUN-202",
+    "buy_count": 53,
+    "sell_count": 110,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-MAY-202",
+    "buy_count": 2,
+    "sell_count": 7,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-NOV-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-OCT-202",
+    "buy_count": 67,
+    "sell_count": 231,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "27-SEP-202",
+    "buy_count": 2,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-APR-202",
+    "buy_count": 3,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-AUG-201",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-AUG-202",
+    "buy_count": 86,
+    "sell_count": 316,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-DEC-202",
-    "buy_value": 0.0,
-    "sell_value": 0.0,
     "buy_count": 0,
-    "sell_count": 0
+    "sell_count": 2,
+    "buy_value": 0.0,
+    "sell_value": 0.0
   },
   {
     "date": "28-FEB-202",
+    "buy_count": 8,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-JUL-202",
+    "buy_count": 63,
+    "sell_count": 257,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-JUN-202",
+    "buy_count": 4,
+    "sell_count": 2,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-MAR-202",
+    "buy_count": 2,
+    "sell_count": 3,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-MAY-202",
+    "buy_count": 5,
+    "sell_count": 9,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-NOV-202",
+    "buy_count": 98,
+    "sell_count": 170,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-OCT-202",
+    "buy_count": 86,
+    "sell_count": 274,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "28-SEP-202",
+    "buy_count": 1,
+    "sell_count": 2,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-APR-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-AUG-202",
+    "buy_count": 106,
+    "sell_count": 287,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-DEC-202",
+    "buy_count": 90,
+    "sell_count": 178,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-FEB-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-JAN-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-JUL-202",
+    "buy_count": 84,
+    "sell_count": 232,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-MAY-202",
+    "buy_count": 3,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-NOV-202",
+    "buy_count": 7,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-OCT-202",
+    "buy_count": 55,
+    "sell_count": 258,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "29-SEP-202",
+    "buy_count": 82,
+    "sell_count": 247,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-APR-202",
+    "buy_count": 17,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-DEC-202",
+    "buy_count": 51,
+    "sell_count": 75,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-JAN-202",
+    "buy_count": 1,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-JUL-202",
+    "buy_count": 67,
+    "sell_count": 183,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-JUN-202",
+    "buy_count": 224,
+    "sell_count": 265,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-MAY-202",
+    "buy_count": 15,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-NOV-202",
+    "buy_count": 3,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-OCT-202",
+    "buy_count": 94,
+    "sell_count": 223,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "30-SEP-202",
+    "buy_count": 123,
+    "sell_count": 379,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-AUG-202",
+    "buy_count": 5,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-DEC-202",
+    "buy_count": 19,
+    "sell_count": 20,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-JAN-202",
+    "buy_count": 4,
+    "sell_count": 0,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-JUL-202",
+    "buy_count": 105,
+    "sell_count": 351,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-MAR-202",
+    "buy_count": 9,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-MAY-202",
+    "buy_count": 1,
+    "sell_count": 1,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   },
   {
     "date": "31-OCT-202",
+    "buy_count": 188,
+    "sell_count": 259,
     "buy_value": 0.0,
-    "sell_value": 0.0,
-    "buy_count": 0,
-    "sell_count": 0
+    "sell_value": 0.0
   }
 ]
