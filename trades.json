@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-01 22:53 UTC",
+  "updated_at": "2026-04-02 22:45 UTC",
   "trades": [
     {
       "ticker": "GOOGL",
@@ -18,6 +18,24 @@
       "txn_date": "2027-01-25",
       "filing_date": "2026-01-27",
       "shares_after": "9517"
+    },
+    {
+      "ticker": "AXON",
+      "company": "AXON ENTERPRISE, INC.",
+      "insider": "Brooks Cameron",
+      "role": "CHIEF REVENUE OFFICER",
+      "type": "SELL",
+      "txn_code": "F",
+      "txn_label": "Tax Withholding",
+      "txn_category": "tax",
+      "shares": 5849.7,
+      "price": 423.57,
+      "total_value": 2477757.43,
+      "security": "Common Stock",
+      "is_derivative": false,
+      "txn_date": "2026-04-01",
+      "filing_date": "2026-04-02",
+      "shares_after": "51695.69"
     },
     {
       "ticker": "GOOGL",
