@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-13 22:57 UTC",
+  "updated_at": "2026-04-14 22:56 UTC",
   "trades": [
     {
       "ticker": "GOOGL",
@@ -18,6 +18,24 @@
       "txn_date": "2027-01-25",
       "filing_date": "2026-01-27",
       "shares_after": "9517"
+    },
+    {
+      "ticker": "AVGO",
+      "company": "Broadcom Inc.",
+      "insider": "Velaga S. Ram",
+      "role": "President, ISG",
+      "type": "SELL",
+      "txn_code": "S",
+      "txn_label": "Open Market Sell",
+      "txn_category": "open_market",
+      "shares": 8000.0,
+      "price": 370.5223,
+      "total_value": 2964178.4,
+      "security": "Common Stock, $0.001 par value",
+      "is_derivative": false,
+      "txn_date": "2026-04-10",
+      "filing_date": "2026-04-14",
+      "shares_after": "57932"
     },
     {
       "ticker": "AVGO",
